@@ -11,11 +11,6 @@ import 'package:annotation_route/example/page_d.dart';
 import 'package:annotation_route/example/page_b.dart';
 import 'package:annotation_route/example/page_c.dart';
 
-abstract class ARouterInternal {
-  bool hasPageConfig(ARouteOption option);
-  ARouterResult findPage(ARouteOption option, dynamic initOption);
-}
-
 class ARouterInternalImpl extends ARouterInternal {
   ARouterInternalImpl();
   final Map<String, List<Map<String, dynamic>>> innerRouterMap =
@@ -59,13 +54,20 @@ class ARouterInternalImpl extends ARouterInternal {
   dynamic instanceFromClazz(Type clazz, dynamic option) {
     switch (clazz) {
       case A:
-        return new A(option);
+        A a = new A();
+        a.a = option.params['haha'];
+        return a;
       case D:
-        return new D(option);
+        D d = new D();
+        d.b = option.params['b'];
+        return d;
       case B:
-        return new B(option);
+        B b = new B();
+        b.b = option.params['e'];
+        return b;
       case C:
-        return new C(option);
+        C c = new C();
+        return c;
       default:
         return null;
     }

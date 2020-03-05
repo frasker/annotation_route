@@ -1,15 +1,22 @@
 import 'dart:convert' hide JsonDecoder;
 
 import 'package:analyzer/dart/element/element.dart';
+import 'package:annotation_route/route.dart';
 import 'package:build/src/builder/build_step.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:analyzer/dart/constant/value.dart';
 import 'page_config_map_util.dart';
 
+const TypeChecker autowiredChecker = TypeChecker.fromRuntime(Autowired);
+
 class Collector {
   Collector();
   Map<String, List<Map<String, dynamic>>> routerMap =
       <String, List<Map<String, dynamic>>>{};
+
+  Map<String, List<Map<String, dynamic>>> paramsMap =
+  <String, List<Map<String, dynamic>>>{};
+
   List<String> importList = <String>[];
 
   Map<String, DartObject> toStringDartObjectMap(
@@ -48,6 +55,32 @@ class Collector {
           "package:${buildStep.inputId.package}/${buildStep.inputId.path.replaceFirst('lib/', '')}");
     } else {
       importClazz("${buildStep.inputId.path}");
+    }
+    for (FieldElement field in (element as ClassElement).fields) {
+      final autowiredAnnotation = autowiredChecker.firstAnnotationOf(field);
+      if(autowiredAnnotation != null) {
+        final autowired = ConstantReader(autowiredAnnotation);
+        var name = autowired.peek('name')?.stringValue??field.name;
+        addParamFromPageConfig(className, name, field);
+      }
+    }
+  }
+
+  void addParam(String key, Map<String, dynamic> value) {
+    List<Map<String, dynamic>> list = paramsMap[key];
+    if (null == list) {
+      list = <Map<String, dynamic>>[];
+      paramsMap[key] = list;
+    }
+    list.add(value);
+  }
+
+  void addParamFromPageConfig(String className, String annotationName, FieldElement element) {
+    if (annotationName != null) {
+      final Map<String, dynamic> map = <String, dynamic>{annotationName: element.name};
+      if (map != null) {
+        addParam("'${className}'", map);
+      }
     }
   }
 

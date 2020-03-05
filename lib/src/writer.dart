@@ -22,8 +22,24 @@ class Writer {
       } else {
         return;
       }
-      buffer.writeln('case ${clazz}: return new ${clazz}(option);');
+      String tmp = "${clazz}".toLowerCase();
+      buffer.writeln(
+          "case ${clazz}: \n" +
+          "${clazz} ${tmp} = new ${clazz}();");
+      final String key = '${clazz}';
+      List<Map<String, dynamic>> map = collector.paramsMap[wK(key)];
+      if(map != null) {
+        map.forEach((params){
+          if(params != null) {
+            params.forEach((key, value){
+              buffer.writeln("${tmp} .${value} = option.params[${wK(key)}];");
+            });
+          }
+        });
+      }
+      buffer.writeln("return ${tmp};");
     };
+
     collector.routerMap
         .forEach((String url, List<Map<String, dynamic>> configList) {
       configList.forEach(writeClazzCase);

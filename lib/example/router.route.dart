@@ -4,13 +4,7 @@ import 'router.route.internal.dart';
 @ARouteRoot()
 class Router {
   ARouterInternal internal = ARouterInternalImpl();
-  dynamic getPage(MyRouteOption option) {
-    return internal.findPage(
-        ARouteOption(option.urlpattern, option.params), option);
+  dynamic getPage(String url, Map<String, dynamic> params) {
+    return internal.findPage(ARouteOption(url, params), params);
   }
-}
-
-class MyRouteOption {
-  String urlpattern;
-  Map<String, dynamic> params;
 }

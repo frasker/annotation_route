@@ -7,5 +7,4 @@ import 'package:annotation_route/route.dart';
 class C {
   int a;
   String b;
-  C(ARouteOption option) : super();
 }

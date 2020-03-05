@@ -6,6 +6,11 @@ class ARoute {
   const ARoute({this.desc, this.url, this.params, this.alias});
 }
 
+class Autowired {
+  final String name;
+  const Autowired({this.name});
+}
+
 class ARouteRoot {
   const ARouteRoot();
 }
