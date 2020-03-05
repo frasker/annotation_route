@@ -34,7 +34,7 @@ class Writer {
               map.forEach((params){
                 if(params != null) {
                   params.forEach((key, value){
-                    buffer.writeln("${value} :option.params[${wK(key)}],");
+                    buffer.writeln("${value} :option[${wK(key)}],");
                   });
                 }
               });
