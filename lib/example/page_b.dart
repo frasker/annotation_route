@@ -4,5 +4,7 @@ import 'package:annotation_route/route.dart';
 class B {
   int a;
   @Autowired(name: 'e')
-  String b;
+  final String b;
+
+  B({this.b});
 }

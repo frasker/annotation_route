@@ -54,19 +54,22 @@ class ARouterInternalImpl extends ARouterInternal {
   dynamic instanceFromClazz(Type clazz, dynamic option) {
     switch (clazz) {
       case A:
-        A a = new A();
-        a.a = option.params['haha'];
+        A a = A(
+          a: option.params['haha'],
+        );
         return a;
       case D:
-        D d = new D();
-        d.b = option.params['b'];
+        D d = D(
+          b: option.params['b'],
+        );
         return d;
       case B:
-        B b = new B();
-        b.b = option.params['e'];
+        B b = B(
+          b: option.params['e'],
+        );
         return b;
       case C:
-        C c = new C();
+        C c = C();
         return c;
       default:
         return null;

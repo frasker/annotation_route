@@ -23,20 +23,24 @@ class Writer {
         return;
       }
       String tmp = "${clazz}".toLowerCase();
-      buffer.writeln(
-          "case ${clazz}: \n" +
-          "${clazz} ${tmp} = new ${clazz}();");
-      final String key = '${clazz}';
-      List<Map<String, dynamic>> map = collector.paramsMap[wK(key)];
-      if(map != null) {
-        map.forEach((params){
-          if(params != null) {
-            params.forEach((key, value){
-              buffer.writeln("${tmp} .${value} = option.params[${wK(key)}];");
-            });
+      buffer.writeln("case ${clazz}: \n");
+          final String key = '${clazz}';
+          List<Map<String, dynamic>> map = collector.paramsMap[wK(key)];
+          if((map?.length??0) == 0) {
+            buffer.writeln("${clazz} ${tmp} = ${clazz}();");
+          } else {
+            buffer.writeln("${clazz} ${tmp} = ${clazz}(");
+            if(map != null) {
+              map.forEach((params){
+                if(params != null) {
+                  params.forEach((key, value){
+                    buffer.writeln("${value} :option.params[${wK(key)}],");
+                  });
+                }
+              });
+            }
+            buffer.writeln(");");
           }
-        });
-      }
       buffer.writeln("return ${tmp};");
     };
 
