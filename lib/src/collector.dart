@@ -61,7 +61,8 @@ class Collector {
       if(autowiredAnnotation != null) {
         final autowired = ConstantReader(autowiredAnnotation);
         var name = autowired.peek('name')?.stringValue??field.name;
-        addParamFromPageConfig(className, name, field);
+        var defaultValue = autowired.peek('defaultValue')?.literalValue;
+        addParamFromPageConfig(className, name, defaultValue, field);
       }
     }
   }
@@ -75,9 +76,12 @@ class Collector {
     list.add(value);
   }
 
-  void addParamFromPageConfig(String className, String annotationName, FieldElement element) {
+  void addParamFromPageConfig(String className, String annotationName, dynamic defaultValue, FieldElement element) {
     if (annotationName != null) {
-      final Map<String, dynamic> map = <String, dynamic>{annotationName: element.name};
+      final Map<String, dynamic> map = <String, dynamic>{element.name: {
+        'name': annotationName,
+        'defaultValue': defaultValue
+      }};
       if (map != null) {
         addParam("'${className}'", map);
       }

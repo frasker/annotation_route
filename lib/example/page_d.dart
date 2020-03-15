@@ -5,8 +5,8 @@ import 'package:annotation_route/route.dart';
 ])
 class D {
   int a;
-  @Autowired(name: 'b')
-  final String b;
+  @Autowired(name: 'b', defaultValue: 2.34)
+  final double b;
 
   D({this.b});
 }

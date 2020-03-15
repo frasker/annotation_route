@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:mustache4dart/mustache4dart.dart';
 import 'collector.dart';
 import 'page_config_map_util.dart';
@@ -34,7 +36,17 @@ class Writer {
               map.forEach((params){
                 if(params != null) {
                   params.forEach((key, value){
-                    buffer.writeln("${value} :option[${wK(key)}],");
+                    final dynamic name = value['name'];
+                    final dynamic defaultValue = value['defaultValue'];
+                    if(defaultValue!=null && !(defaultValue is Symbol)) {
+                      if(defaultValue is String) {
+                        buffer.writeln("${key} :option[${wK(name)}]??\"${defaultValue.toString()}\",");
+                      }else {
+                        buffer.writeln("${key} :option[${wK(name)}]??${defaultValue.toString()},");
+                      }
+                    }else {
+                      buffer.writeln("${key} :option[${wK(name)}],");
+                    }
                   });
                 }
               });

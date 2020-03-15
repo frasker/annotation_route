@@ -6,29 +6,29 @@
 
 import 'dart:convert';
 import 'package:annotation_route/route.dart';
-import 'package:annotation_route/example/page_c.dart';
-import 'package:annotation_route/example/page_b.dart';
-import 'package:annotation_route/example/page_d.dart';
 import 'package:annotation_route/example/page_a.dart';
+import 'package:annotation_route/example/page_d.dart';
+import 'package:annotation_route/example/page_b.dart';
+import 'package:annotation_route/example/page_c.dart';
 
 class ARouterInternalImpl extends ARouterInternal {
   ARouterInternalImpl();
   final Map<String, List<Map<String, dynamic>>> innerRouterMap =
       <String, List<Map<String, dynamic>>>{
+    'myapp://pagea': [
+      {'clazz': A}
+    ],
+    'myapp://paged': [
+      {'clazz': D, 'params': '{"parama":"d"}'}
+    ],
+    'myapp://pageb': [
+      {'clazz': B, 'params': '{"parama":"b"}'}
+    ],
     'myapp://pagec': [
       {'clazz': C}
     ],
     'myapp://pagec_alias': [
       {'clazz': C}
-    ],
-    'myapp://pageb': [
-      {'clazz': B, 'params': '{"parama":"b"}'}
-    ],
-    'myapp://paged': [
-      {'clazz': D, 'params': '{"parama":"d"}'}
-    ],
-    'myapp://pagea': [
-      {'clazz': A}
     ]
   };
 
@@ -53,24 +53,24 @@ class ARouterInternalImpl extends ARouterInternal {
 
   dynamic instanceFromClazz(Type clazz, dynamic option) {
     switch (clazz) {
+      case A:
+        A a = A(
+          a: option['haha'] ?? 33,
+        );
+        return a;
+      case D:
+        D d = D(
+          b: option['b'] ?? 2.34,
+        );
+        return d;
+      case B:
+        B b = B(
+          b: option['e'] ?? "傻叉",
+        );
+        return b;
       case C:
         C c = C();
         return c;
-      case B:
-        B b = B(
-          b: option['e'],
-        );
-        return b;
-      case D:
-        D d = D(
-          b: option['b'],
-        );
-        return d;
-      case A:
-        A a = A(
-          a: option['haha'],
-        );
-        return a;
       default:
         return null;
     }

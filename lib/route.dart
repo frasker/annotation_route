@@ -8,7 +8,8 @@ class ARoute {
 
 class Autowired {
   final String name;
-  const Autowired({this.name});
+  final dynamic defaultValue;
+  const Autowired({this.name, this.defaultValue});
 }
 
 class ARouteRoot {
