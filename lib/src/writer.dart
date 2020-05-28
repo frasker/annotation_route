@@ -42,9 +42,9 @@ class Writer {
                       if(defaultValue is String) {
                         buffer.writeln("${key} :option[${wK(name)}]??\"${defaultValue.toString()}\",");
                       } else if(defaultValue is int) {
-                        buffer.writeln("${key} :int.tryParse(option[${wK(name)}])??${defaultValue.toString()},");
+                        buffer.writeln("${key} :int.tryParse(option[${wK(name)}]??'')??${defaultValue.toString()},");
                       } else if(defaultValue is double) {
-                        buffer.writeln("${key} :double.tryParse(option[${wK(name)}])??${defaultValue.toString()},");
+                        buffer.writeln("${key} :double.tryParse(option[${wK(name)}]??'')??${defaultValue.toString()},");
                       } else {
                         buffer.writeln("${key} :option[${wK(name)}]??${defaultValue.toString()},");
                       }
