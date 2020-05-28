@@ -55,12 +55,12 @@ class ARouterInternalImpl extends ARouterInternal {
     switch (clazz) {
       case A:
         A a = A(
-          a: option['haha'] ?? 33,
+          a: int.tryParse(option['haha']) ?? 33,
         );
         return a;
       case D:
         D d = D(
-          b: option['b'] ?? 2.34,
+          b: double.tryParse(option['b']) ?? 2.34,
         );
         return d;
       case B:
